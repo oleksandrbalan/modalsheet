@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ModalSheetDemoTheme {
-                var example by rememberSaveable { mutableStateOf<Example?>(Example.CustomFullScreenPopup) }
+                var example by rememberSaveable { mutableStateOf<Example?>(null) }
 
                 BackHandler(enabled = example != null) {
                     example = null

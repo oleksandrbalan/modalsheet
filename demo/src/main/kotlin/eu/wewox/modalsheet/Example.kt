@@ -1,5 +1,8 @@
 package eu.wewox.modalsheet
 
+/**
+ * Enumeration of available demo examples.
+ */
 enum class Example(
     val label: String,
     val description: String,
