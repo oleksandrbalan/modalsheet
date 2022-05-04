@@ -59,6 +59,9 @@ import eu.wewox.modalsheet.ui.components.TopBar
 import eu.wewox.modalsheet.ui.theme.SpacingMedium
 import eu.wewox.modalsheet.ui.theme.SpacingSmall
 
+/**
+ * Showcases usage of internal [FullScreenPopup] component to create custom confirmation component.
+ */
 @Composable
 fun CustomFullScreenPopupScreen() {
     var item by remember { mutableStateOf(BottomNavItem.Home) }

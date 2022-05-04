@@ -1,3 +1,5 @@
+@file:Suppress("UndocumentedPublicProperty")
+
 package eu.wewox.modalsheet.ui.theme
 
 import androidx.compose.ui.graphics.Color

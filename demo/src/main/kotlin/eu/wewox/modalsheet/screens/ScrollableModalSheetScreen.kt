@@ -29,6 +29,9 @@ import eu.wewox.modalsheet.ui.components.TopBar
 import eu.wewox.modalsheet.ui.theme.SpacingMedium
 import eu.wewox.modalsheet.ui.theme.SpacingSmall
 
+/**
+ * Showcases the scroll support in the [ModalSheet] body.
+ */
 @Composable
 fun ScrollableModalSheetScreen() {
     Scaffold(

@@ -35,6 +35,10 @@ import eu.wewox.modalsheet.ui.components.TopBar
 import eu.wewox.modalsheet.ui.theme.ModalSheetDemoTheme
 import eu.wewox.modalsheet.ui.theme.SpacingMedium
 
+/**
+ * Main activity for demo application.
+ * Contains simple "Crossfade" based navigation to various examples.
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

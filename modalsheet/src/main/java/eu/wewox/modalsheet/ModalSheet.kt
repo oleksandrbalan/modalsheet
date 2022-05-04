@@ -105,12 +105,30 @@ fun ModalSheet(
     }
 }
 
+/**
+ * The scope for [ModalSheet] content.
+ */
 interface ModalSheetScope {
+
+    /**
+     * The scroll state.
+     * Must be passed to [.verticalScroll] modifier to support scrolling inside content.
+     */
     val scrollState: ScrollState
 }
 
+/**
+ * Contains the default values used by [ModalSheet].
+ */
 object ModalSheetDefaults {
 
+    /**
+     * The default scrim component.
+     *
+     * @param popupVisible True if popup is visible, used to alter scrim color.
+     * @param onScrimClick Called when user clicks on the scrim.
+     * @param color The default scrim color (without alpha).
+     */
     @Composable
     fun BoxScope.Scrim(
         popupVisible: Boolean,

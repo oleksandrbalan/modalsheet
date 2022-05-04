@@ -2,6 +2,9 @@ package eu.wewox.modalsheet
 
 /**
  * Enumeration of available demo examples.
+ *
+ * @param label Example name.
+ * @param description Brief description.
  */
 enum class Example(
     val label: String,

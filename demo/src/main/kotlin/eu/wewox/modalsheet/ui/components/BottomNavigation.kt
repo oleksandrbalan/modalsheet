@@ -17,6 +17,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
+/**
+ * The reusable bottom navigation component.
+ *
+ * @param current The currently selected item.
+ * @param onClick Called when user selects the bottom navigation item.
+ */
 @Composable
 fun BottomNavigation(
     current: BottomNavItem,
@@ -44,6 +50,9 @@ fun BottomNavigation(
     }
 }
 
+/**
+ * The bottom navigation item with [title] for label and [imageVector] for icon.
+ */
 enum class BottomNavItem(var title: String, var imageVector: ImageVector) {
     Home("Home", Icons.Default.Home),
     Counter("Counter", Icons.Default.AddCircle),

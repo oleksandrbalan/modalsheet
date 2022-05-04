@@ -24,6 +24,10 @@ import eu.wewox.modalsheet.ui.components.TopBar
 import eu.wewox.modalsheet.ui.theme.SpacingMedium
 import eu.wewox.modalsheet.ui.theme.SpacingSmall
 
+/**
+ * Showcases the most simple usage of the modal sheet composable.
+ * Shows the bottom sheet on button click.
+ */
 @Composable
 fun SimpleModalSheetScreen() {
     Scaffold(
@@ -50,6 +54,13 @@ fun SimpleModalSheetScreen() {
     }
 }
 
+/**
+ * Simple [ModalSheet] example which contains only texts and button to close bottom sheet.
+ *
+ * @param title The title to show inside [ModalSheet].
+ * @param visible True if modal should be visible.
+ * @param onDismiss Called when user touches the scrim or swipes the sheet away.
+ */
 @Composable
 fun SimpleModalSheet(
     title: String,

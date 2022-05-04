@@ -32,6 +32,9 @@ import eu.wewox.modalsheet.ui.components.TopBar
 import eu.wewox.modalsheet.ui.theme.SpacingMedium
 import eu.wewox.modalsheet.ui.theme.SpacingSmall
 
+/**
+ * Showcases the custom [ModalSheet], which has custom background, shape, scrim and can be dismissed only with button.
+ */
 @Composable
 fun CustomModalSheetScreen() {
     Scaffold(

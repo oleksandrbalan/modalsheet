@@ -32,6 +32,9 @@ import eu.wewox.modalsheet.ui.components.TopBar
 import eu.wewox.modalsheet.ui.theme.SpacingMedium
 import eu.wewox.modalsheet.ui.theme.SpacingSmall
 
+/**
+ * Showcases that [ModalSheet] could be displayed above the bottom bar navigation.
+ */
 @Composable
 fun SheetAboveBottomBarScreen() {
     var item by remember { mutableStateOf(BottomNavItem.Home) }

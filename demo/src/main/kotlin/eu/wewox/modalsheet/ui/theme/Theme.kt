@@ -30,6 +30,9 @@ private val LightColorPalette = lightColors(
     onSecondary = Color.Black,
 )
 
+/**
+ * The theme to use for deo application.
+ */
 @Composable
 fun ModalSheetDemoTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val sysUiController = rememberSystemUiController()
