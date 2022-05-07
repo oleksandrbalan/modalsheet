@@ -1,12 +1,8 @@
+@file:OptIn(ExperimentalSheetApi::class)
+
 package eu.wewox.modalsheet.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -19,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import eu.wewox.modalsheet.Example
+import eu.wewox.modalsheet.ExperimentalSheetApi
 import eu.wewox.modalsheet.ModalSheet
 import eu.wewox.modalsheet.ui.components.TopBar
 import eu.wewox.modalsheet.ui.theme.SpacingMedium

@@ -8,17 +8,8 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Box
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionContext
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCompositionContext
-import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.R
 import androidx.compose.ui.platform.AbstractComposeView
@@ -29,7 +20,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.lifecycle.ViewTreeViewModelStoreOwner
 import androidx.savedstate.ViewTreeSavedStateRegistryOwner
-import java.util.UUID
+import java.util.*
 
 /**
  * Opens a popup with the given content.
@@ -43,6 +34,7 @@ import java.util.UUID
  * @param onDismiss Executes when the user clicks outside of the popup.
  * @param content The content to be displayed inside the popup.
  */
+@ExperimentalSheetApi
 @Composable
 fun FullScreenPopup(
     onDismiss: (() -> Unit)? = null,

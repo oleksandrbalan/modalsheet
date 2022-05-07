@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalSheetApi::class)
+
 package eu.wewox.modalsheet.screens
 
 import androidx.compose.animation.Crossfade
@@ -6,26 +8,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.forEachGesture
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.BoxWithConstraintsScope
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
@@ -52,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import eu.wewox.modalsheet.ExperimentalSheetApi
 import eu.wewox.modalsheet.FullScreenPopup
 import eu.wewox.modalsheet.ui.components.BottomNavItem
 import eu.wewox.modalsheet.ui.components.BottomNavigation

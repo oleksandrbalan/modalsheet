@@ -8,26 +8,10 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.SwipeableDefaults
-import androidx.compose.material.SwipeableState
-import androidx.compose.material.rememberSwipeableState
-import androidx.compose.material.swipeable
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -55,6 +39,7 @@ import kotlin.math.roundToInt
  * @param scrim Optional custom scrim.
  * @param content The content of the bottom sheet.
  */
+@ExperimentalSheetApi
 @Composable
 fun ModalSheet(
     visible: Boolean,
@@ -108,6 +93,7 @@ fun ModalSheet(
 /**
  * The scope for [ModalSheet] content.
  */
+@ExperimentalSheetApi
 interface ModalSheetScope {
 
     /**
@@ -120,6 +106,7 @@ interface ModalSheetScope {
 /**
  * Contains the default values used by [ModalSheet].
  */
+@ExperimentalSheetApi
 object ModalSheetDefaults {
 
     /**
@@ -129,6 +116,7 @@ object ModalSheetDefaults {
      * @param onScrimClick Called when user clicks on the scrim.
      * @param color The default scrim color (without alpha).
      */
+    @ExperimentalSheetApi
     @Composable
     fun BoxScope.Scrim(
         popupVisible: Boolean,
@@ -288,6 +276,7 @@ private class ModalSheetScrollConnection(
     private fun Float.toYOffset() = Offset(0f, this)
 }
 
+@ExperimentalSheetApi
 private class ModalSheetScopeImpl : ModalSheetScope {
     override val scrollState: ScrollState = ScrollState(0)
 }
