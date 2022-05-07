@@ -41,10 +41,13 @@ import kotlin.math.roundToInt
  */
 @ExperimentalSheetApi
 @Composable
-fun ModalSheet(
+public fun ModalSheet(
     visible: Boolean,
     onDismiss: () -> Unit,
-    shape: Shape = MaterialTheme.shapes.large.copy(bottomEnd = CornerSize(0), bottomStart = CornerSize(0)),
+    shape: Shape = MaterialTheme.shapes.large.copy(
+        bottomEnd = CornerSize(0),
+        bottomStart = CornerSize(0)
+    ),
     backgroundColor: Color = MaterialTheme.colors.surface,
     swipeEnabled: Boolean = true,
     scrimClickEnabled: Boolean = true,
@@ -94,20 +97,20 @@ fun ModalSheet(
  * The scope for [ModalSheet] content.
  */
 @ExperimentalSheetApi
-interface ModalSheetScope {
+public interface ModalSheetScope {
 
     /**
      * The scroll state.
      * Must be passed to [.verticalScroll] modifier to support scrolling inside content.
      */
-    val scrollState: ScrollState
+    public val scrollState: ScrollState
 }
 
 /**
  * Contains the default values used by [ModalSheet].
  */
 @ExperimentalSheetApi
-object ModalSheetDefaults {
+public object ModalSheetDefaults {
 
     /**
      * The default scrim component.
@@ -118,7 +121,7 @@ object ModalSheetDefaults {
      */
     @ExperimentalSheetApi
     @Composable
-    fun BoxScope.Scrim(
+    public fun BoxScope.Scrim(
         popupVisible: Boolean,
         onScrimClick: () -> Unit,
         color: Color = Color.Black,

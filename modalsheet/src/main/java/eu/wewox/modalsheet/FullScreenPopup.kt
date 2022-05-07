@@ -36,7 +36,7 @@ import java.util.*
  */
 @ExperimentalSheetApi
 @Composable
-fun FullScreenPopup(
+public fun FullScreenPopup(
     onDismiss: (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
