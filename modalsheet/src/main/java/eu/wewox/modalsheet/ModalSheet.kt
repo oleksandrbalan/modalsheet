@@ -55,11 +55,15 @@ import kotlin.math.roundToInt
  * @param scrim Optional custom scrim.
  * @param content The content of the bottom sheet.
  */
+@ExperimentalSheetApi
 @Composable
-fun ModalSheet(
+public fun ModalSheet(
     visible: Boolean,
     onDismiss: () -> Unit,
-    shape: Shape = MaterialTheme.shapes.large.copy(bottomEnd = CornerSize(0), bottomStart = CornerSize(0)),
+    shape: Shape = MaterialTheme.shapes.large.copy(
+        bottomEnd = CornerSize(0),
+        bottomStart = CornerSize(0)
+    ),
     backgroundColor: Color = MaterialTheme.colors.surface,
     swipeEnabled: Boolean = true,
     scrimClickEnabled: Boolean = true,
@@ -108,19 +112,21 @@ fun ModalSheet(
 /**
  * The scope for [ModalSheet] content.
  */
-interface ModalSheetScope {
+@ExperimentalSheetApi
+public interface ModalSheetScope {
 
     /**
      * The scroll state.
      * Must be passed to [.verticalScroll] modifier to support scrolling inside content.
      */
-    val scrollState: ScrollState
+    public val scrollState: ScrollState
 }
 
 /**
  * Contains the default values used by [ModalSheet].
  */
-object ModalSheetDefaults {
+@ExperimentalSheetApi
+public object ModalSheetDefaults {
 
     /**
      * The default scrim component.
@@ -129,8 +135,9 @@ object ModalSheetDefaults {
      * @param onScrimClick Called when user clicks on the scrim.
      * @param color The default scrim color (without alpha).
      */
+    @ExperimentalSheetApi
     @Composable
-    fun BoxScope.Scrim(
+    public fun BoxScope.Scrim(
         popupVisible: Boolean,
         onScrimClick: () -> Unit,
         color: Color = Color.Black,
@@ -288,6 +295,7 @@ private class ModalSheetScrollConnection(
     private fun Float.toYOffset() = Offset(0f, this)
 }
 
+@ExperimentalSheetApi
 private class ModalSheetScopeImpl : ModalSheetScope {
     override val scrollState: ScrollState = ScrollState(0)
 }

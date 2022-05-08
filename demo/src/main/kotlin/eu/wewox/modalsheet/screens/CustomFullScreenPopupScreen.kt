@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalSheetApi::class)
+
 package eu.wewox.modalsheet.screens
 
 import androidx.compose.animation.Crossfade
@@ -52,6 +54,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import eu.wewox.modalsheet.ExperimentalSheetApi
 import eu.wewox.modalsheet.FullScreenPopup
 import eu.wewox.modalsheet.ui.components.BottomNavItem
 import eu.wewox.modalsheet.ui.components.BottomNavigation

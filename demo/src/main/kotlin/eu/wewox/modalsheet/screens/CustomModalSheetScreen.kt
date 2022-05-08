@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalSheetApi::class)
+
 package eu.wewox.modalsheet.screens
 
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import eu.wewox.modalsheet.Example
+import eu.wewox.modalsheet.ExperimentalSheetApi
 import eu.wewox.modalsheet.ModalSheet
 import eu.wewox.modalsheet.ModalSheetDefaults.Scrim
 import eu.wewox.modalsheet.ui.components.TopBar
