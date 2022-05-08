@@ -44,6 +44,52 @@ import eu.wewox.modalsheet.ModalSheetDefaults.Scrim
 import kotlin.math.roundToInt
 
 /**
+ * Modal sheet that behaves like bottom sheet and draws over system UI.
+ *
+ * @param data The data to show in the content. If null, hides the modal sheet.
+ * @param onDismiss Called when user touches the scrim or swipes the sheet away.
+ * @param shape Defines the modal's shape
+ * @param backgroundColor The background color. Use Color.Transparent to have no color.
+ * @param swipeEnabled True if swipe interaction with bottom sheet is enabled.
+ * @param scrimClickEnabled True if click on scrim is enabled.
+ * @param scrim Optional custom scrim.
+ * @param content The content of the bottom sheet.
+ */
+@Composable
+fun <T> ModalSheet(
+    data: T?,
+    onDismiss: () -> Unit,
+    shape: Shape = MaterialTheme.shapes.large.copy(bottomEnd = CornerSize(0), bottomStart = CornerSize(0)),
+    backgroundColor: Color = MaterialTheme.colors.surface,
+    swipeEnabled: Boolean = true,
+    scrimClickEnabled: Boolean = true,
+    scrim: @Composable BoxScope.(Boolean) -> Unit = {
+        Scrim(it, onScrimClick = if (scrimClickEnabled) onDismiss else NoOpLambda)
+    },
+    content: @Composable ModalSheetScope.(T) -> Unit,
+) {
+    var lastNonNullData by remember { mutableStateOf(data) }
+    DisposableEffect(data) {
+        if (data != null) lastNonNullData = data
+        onDispose {}
+    }
+
+    ModalSheet(
+        visible = data != null,
+        onDismiss = onDismiss,
+        shape = shape,
+        backgroundColor = backgroundColor,
+        swipeEnabled = swipeEnabled,
+        scrimClickEnabled = scrimClickEnabled,
+        scrim = scrim,
+    ) {
+        lastNonNullData?.let {
+            content(it)
+        }
+    }
+}
+
+/**
  * Static modal sheet that behaves like bottom sheet and draws over system UI.
  * Non-data variant should contain only static [content]. For dynamic content use [ModalSheet].
  *
@@ -69,61 +115,15 @@ fun ModalSheet(
     },
     content: @Composable ModalSheetScope.() -> Unit,
 ) {
-    ModalSheet(
-        data = Unit,
-        visible = { visible },
-        onDismiss = onDismiss,
-        shape = shape,
-        backgroundColor = backgroundColor,
-        swipeEnabled = swipeEnabled,
-        scrimClickEnabled = scrimClickEnabled,
-        scrim = scrim,
-        content = { content() }
-    )
-}
-
-/**
- * Modal sheet that behaves like bottom sheet and draws over system UI.
- *
- * @param data The data to show in the content.
- * @param visible Called to check if modal should be show for the given data.
- * @param onDismiss Called when user touches the scrim or swipes the sheet away.
- * @param shape Defines the modal's shape
- * @param backgroundColor The background color. Use Color.Transparent to have no color.
- * @param swipeEnabled True if swipe interaction with bottom sheet is enabled.
- * @param scrimClickEnabled True if click on scrim is enabled.
- * @param scrim Optional custom scrim.
- * @param content The content of the bottom sheet.
- */
-@Composable
-fun <T> ModalSheet(
-    data: T?,
-    visible: T?.() -> Boolean,
-    onDismiss: () -> Unit,
-    shape: Shape = MaterialTheme.shapes.large.copy(bottomEnd = CornerSize(0), bottomStart = CornerSize(0)),
-    backgroundColor: Color = MaterialTheme.colors.surface,
-    swipeEnabled: Boolean = true,
-    scrimClickEnabled: Boolean = true,
-    scrim: @Composable BoxScope.(Boolean) -> Unit = {
-        Scrim(it, onScrimClick = if (scrimClickEnabled) onDismiss else NoOpLambda)
-    },
-    content: @Composable ModalSheetScope.(T?) -> Unit,
-) {
-    var contentData by remember { mutableStateOf(data) }
-    val modalVisible = data.visible()
-    if (modalVisible) {
-        contentData = data
-    }
-
     // If content animated by AnimatedVisibility in PopupBody is still visible (in composition)
     var contentVisible by remember { mutableStateOf(false) }
 
-    if (modalVisible || contentVisible) {
+    if (visible || contentVisible) {
         FullScreenPopup(
             onDismiss = onDismiss
         ) {
             PopupBody(
-                visible = modalVisible,
+                visible = visible,
                 scrim = scrim,
                 content = {
                     // Set contentVisible true when the composable enters composition and false when it leaves
@@ -143,7 +143,7 @@ fun <T> ModalSheet(
                             color = backgroundColor,
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            scope.content(contentData)
+                            scope.content()
                         }
                     }
                 }

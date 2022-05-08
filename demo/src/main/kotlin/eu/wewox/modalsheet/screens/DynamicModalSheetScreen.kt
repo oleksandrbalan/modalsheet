@@ -68,12 +68,8 @@ private fun ErrorModalSheet(
 ) {
     ModalSheet(
         data = error,
-        visible = { this != null },
         onDismiss = onDismiss
     ) { data ->
-        if (data == null) {
-            return@ModalSheet
-        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(SpacingSmall),
