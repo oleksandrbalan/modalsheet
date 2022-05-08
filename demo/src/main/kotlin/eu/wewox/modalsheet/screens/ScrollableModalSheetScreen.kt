@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalSheetApi::class)
+
 package eu.wewox.modalsheet.screens
 
 import androidx.compose.foundation.background
@@ -24,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import eu.wewox.modalsheet.Example
+import eu.wewox.modalsheet.ExperimentalSheetApi
 import eu.wewox.modalsheet.ModalSheet
 import eu.wewox.modalsheet.ui.components.TopBar
 import eu.wewox.modalsheet.ui.theme.SpacingMedium
@@ -128,7 +131,12 @@ private fun ScrollableWithFixedPartsModalSheet(
                 modifier = Modifier
                     .verticalScroll(scrollState)
                     .systemBarsPadding()
-                    .padding(top = 56.dp, bottom = 64.dp, start = SpacingMedium, end = SpacingMedium)
+                    .padding(
+                        top = 56.dp,
+                        bottom = 64.dp,
+                        start = SpacingMedium,
+                        end = SpacingMedium
+                    )
             ) {
                 repeat(100) {
                     Text(

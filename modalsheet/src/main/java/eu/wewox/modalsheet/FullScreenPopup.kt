@@ -43,8 +43,9 @@ import java.util.UUID
  * @param onDismiss Executes when the user clicks outside of the popup.
  * @param content The content to be displayed inside the popup.
  */
+@ExperimentalSheetApi
 @Composable
-fun FullScreenPopup(
+public fun FullScreenPopup(
     onDismiss: (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
@@ -116,7 +117,10 @@ internal class PopupLayout(
         private set
 
     fun show() {
-        decorView.addView(this, MarginLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+        decorView.addView(
+            this,
+            MarginLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+        )
 
         requestFocus()
     }
