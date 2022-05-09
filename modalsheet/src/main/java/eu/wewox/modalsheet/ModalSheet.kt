@@ -46,6 +46,54 @@ import kotlin.math.roundToInt
 /**
  * Modal sheet that behaves like bottom sheet and draws over system UI.
  *
+ * @param data The data to show in the content. If null, hides the modal sheet.
+ * @param onDismiss Called when user touches the scrim or swipes the sheet away.
+ * @param shape Defines the modal's shape
+ * @param backgroundColor The background color. Use Color.Transparent to have no color.
+ * @param swipeEnabled True if swipe interaction with bottom sheet is enabled.
+ * @param scrimClickEnabled True if click on scrim is enabled.
+ * @param scrim Optional custom scrim.
+ * @param content The content of the bottom sheet.
+ */
+@ExperimentalSheetApi
+@Composable
+public fun <T> ModalSheet(
+    data: T?,
+    onDismiss: () -> Unit,
+    shape: Shape = MaterialTheme.shapes.large.copy(bottomEnd = CornerSize(0), bottomStart = CornerSize(0)),
+    backgroundColor: Color = MaterialTheme.colors.surface,
+    swipeEnabled: Boolean = true,
+    scrimClickEnabled: Boolean = true,
+    scrim: @Composable BoxScope.(Boolean) -> Unit = {
+        Scrim(it, onScrimClick = if (scrimClickEnabled) onDismiss else NoOpLambda)
+    },
+    content: @Composable ModalSheetScope.(T) -> Unit,
+) {
+    var lastNonNullData by remember { mutableStateOf(data) }
+    DisposableEffect(data) {
+        if (data != null) lastNonNullData = data
+        onDispose {}
+    }
+
+    ModalSheet(
+        visible = data != null,
+        onDismiss = onDismiss,
+        shape = shape,
+        backgroundColor = backgroundColor,
+        swipeEnabled = swipeEnabled,
+        scrimClickEnabled = scrimClickEnabled,
+        scrim = scrim,
+    ) {
+        lastNonNullData?.let {
+            content(it)
+        }
+    }
+}
+
+/**
+ * Static modal sheet that behaves like bottom sheet and draws over system UI.
+ * Non-data variant should contain only static [content]. For dynamic content use [ModalSheet].
+ *
  * @param visible True if modal should be visible.
  * @param onDismiss Called when user touches the scrim or swipes the sheet away.
  * @param shape Defines the modal's shape

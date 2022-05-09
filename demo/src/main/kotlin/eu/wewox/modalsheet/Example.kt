@@ -18,6 +18,10 @@ enum class Example(
         "Sheet Above Bottom Bar",
         "Showcases the fact, that modal is displayed above bottom bar"
     ),
+    DynamicModalSheet(
+        "Dynamic Content Modal Sheet",
+        "Example of modal sheet with dynamic content"
+    ),
     ScrollableModalSheet(
         "Scrollable Modal Sheet",
         "Example of scrollable modal sheet"
