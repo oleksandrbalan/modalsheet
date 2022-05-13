@@ -30,6 +30,10 @@ enum class Example(
         "Custom Modal Sheet",
         "Example of customizable input arguments"
     ),
+    ObservableModalSheet(
+        "Observable Modal Sheet",
+        "Example how progress of modal sheet could be observed"
+    ),
     CustomFullScreenPopup(
         "Custom FullScreen Popup",
         "Bonus: Use internal fullscreen popup to build your own components"

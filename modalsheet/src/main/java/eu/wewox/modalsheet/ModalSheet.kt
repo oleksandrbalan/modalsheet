@@ -1,11 +1,12 @@
 package eu.wewox.modalsheet
 
-import androidx.compose.foundation.layout.ColumnScope
+import androidx.annotation.FloatRange
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetDefaults
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.SwipeableState
 import androidx.compose.material.contentColorFor
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -49,7 +50,7 @@ public fun <T> ModalSheet(
     backgroundColor: Color = ModalSheetDefaults.backgroundColor,
     contentColor: Color = contentColorFor(backgroundColor),
     scrimColor: Color = ModalSheetDefaults.scrimColor,
-    content: @Composable ColumnScope.(T) -> Unit,
+    content: @Composable ModalSheetScope.(T) -> Unit,
 ) {
     var lastNonNullData by remember { mutableStateOf(data) }
     DisposableEffect(data) {
@@ -104,7 +105,7 @@ public fun ModalSheet(
     backgroundColor: Color = ModalSheetDefaults.backgroundColor,
     contentColor: Color = contentColorFor(backgroundColor),
     scrimColor: Color = ModalSheetDefaults.scrimColor,
-    content: @Composable ColumnScope.() -> Unit,
+    content: @Composable ModalSheetScope.() -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(
         skipHalfExpanded = true,
@@ -157,7 +158,7 @@ private fun ModalSheet(
     backgroundColor: Color = ModalSheetDefaults.backgroundColor,
     contentColor: Color = contentColorFor(backgroundColor),
     scrimColor: Color = ModalSheetDefaults.scrimColor,
-    content: @Composable ColumnScope.() -> Unit,
+    content: @Composable ModalSheetScope.() -> Unit,
 ) {
     FullScreenPopup(
         onDismiss = onDismiss,
@@ -169,10 +170,41 @@ private fun ModalSheet(
             sheetBackgroundColor = backgroundColor,
             sheetContentColor = contentColor,
             scrimColor = scrimColor,
-            sheetContent = content,
+            sheetContent = {
+                val scope = object : ModalSheetScope {
+                    override val sweepState: SwipeableState<ModalBottomSheetValue>
+                        get() = sheetState
+                }
+                scope.content()
+            },
             content = { /* Empty */ }
         )
     }
+}
+
+/**
+ * The scope for the modal sheet content.
+ */
+@ExperimentalSheetApi
+public interface ModalSheetScope {
+
+    /**
+     * Normalized fraction from 0.0 to 1.0, where 0.0 is fully collapsed and 1.0 is fully expanded.
+     */
+    public val normalizedFraction: Float
+        @FloatRange(from = 0.0, to = 1.0)
+        get() = with(sweepState) {
+            if (direction <= 0) {
+                progress.fraction
+            } else {
+                1f - progress.fraction
+            }
+        }
+
+    /**
+     * The swipeable state to read values from.
+     */
+    public val sweepState: SwipeableState<ModalBottomSheetValue>
 }
 
 /**
