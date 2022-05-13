@@ -171,11 +171,7 @@ private fun ModalSheet(
             sheetContentColor = contentColor,
             scrimColor = scrimColor,
             sheetContent = {
-                val scope = object : ModalSheetScope {
-                    override val sweepState: SwipeableState<ModalBottomSheetValue>
-                        get() = sheetState
-                }
-                scope.content()
+                ModalSheetScopeImpl(sheetState).content()
             },
             content = { /* Empty */ }
         )
@@ -193,7 +189,7 @@ public interface ModalSheetScope {
      */
     public val normalizedFraction: Float
         @FloatRange(from = 0.0, to = 1.0)
-        get() = with(sweepState) {
+        get() = with(swipeState) {
             if (direction <= 0) {
                 progress.fraction
             } else {
@@ -204,7 +200,7 @@ public interface ModalSheetScope {
     /**
      * The swipeable state to read values from.
      */
-    public val sweepState: SwipeableState<ModalBottomSheetValue>
+    public val swipeState: SwipeableState<ModalBottomSheetValue>
 }
 
 /**
@@ -242,3 +238,6 @@ public object ModalSheetDefaults {
         @Composable
         get() = ModalBottomSheetDefaults.scrimColor
 }
+
+@ExperimentalSheetApi
+private class ModalSheetScopeImpl(override val swipeState: SwipeableState<ModalBottomSheetValue>) : ModalSheetScope

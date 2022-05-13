@@ -44,7 +44,7 @@ import eu.wewox.modalsheet.ui.theme.SpacingSmall
 @Composable
 fun ObservableModalSheetScreen() {
     Scaffold(
-        topBar = { TopBar(Example.ObservablePopup.label) }
+        topBar = { TopBar(Example.ObservableModalSheet.label) }
     ) { padding ->
         var visible by rememberSaveable { mutableStateOf(false) }
 
