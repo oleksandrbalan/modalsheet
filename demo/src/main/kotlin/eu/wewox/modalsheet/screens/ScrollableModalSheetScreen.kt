@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -46,12 +50,10 @@ fun ScrollableModalSheetScreen() {
                 .padding(padding)
                 .padding(SpacingMedium)
         ) {
-            var scrollableVisible by rememberSaveable { mutableStateOf(false) }
-            var scrollableWithFixedVisible by rememberSaveable { mutableStateOf(false) }
-
-            Text(
-                text = "Note: LazyColumn and LazyVerticalGrid are not supported for now.",
-            )
+            var verticalScrollVisible by rememberSaveable { mutableStateOf(false) }
+            var verticalScrollWithFixedVisible by rememberSaveable { mutableStateOf(false) }
+            var lazyColumnVisible by rememberSaveable { mutableStateOf(false) }
+            var lazyGridVisible by rememberSaveable { mutableStateOf(false) }
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -60,23 +62,41 @@ fun ScrollableModalSheetScreen() {
                     .fillMaxWidth()
                     .weight(1f)
             ) {
-                Button(onClick = { scrollableVisible = true }) {
-                    Text(text = "Show modal sheet #1")
+                Button(onClick = { verticalScrollVisible = true }) {
+                    Text(text = "Vertical scroll")
                 }
 
-                Button(onClick = { scrollableWithFixedVisible = true }) {
-                    Text(text = "Show modal sheet #2")
+                Button(onClick = { verticalScrollWithFixedVisible = true }) {
+                    Text(text = "Vertical scroll with fixed")
+                }
+
+                Button(onClick = { lazyColumnVisible = true }) {
+                    Text(text = "Lazy list")
+                }
+
+                Button(onClick = { lazyGridVisible = true }) {
+                    Text(text = "Lazy grid")
                 }
             }
 
             ScrollableModalSheet(
-                visible = scrollableVisible,
-                onDismiss = { scrollableVisible = false }
+                visible = verticalScrollVisible,
+                onDismiss = { verticalScrollVisible = false }
             )
 
             ScrollableWithFixedPartsModalSheet(
-                visible = scrollableWithFixedVisible,
-                onDismiss = { scrollableWithFixedVisible = false }
+                visible = verticalScrollWithFixedVisible,
+                onDismiss = { verticalScrollWithFixedVisible = false }
+            )
+
+            LazyColumnModalSheet(
+                visible = lazyColumnVisible,
+                onDismiss = { lazyColumnVisible = false }
+            )
+
+            LazyGridModalSheet(
+                visible = lazyGridVisible,
+                onDismiss = { lazyGridVisible = false }
             )
         }
     }
@@ -95,7 +115,7 @@ private fun ScrollableModalSheet(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(SpacingSmall),
             modifier = Modifier
-                .verticalScroll(scrollState)
+                .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
                 .padding(SpacingMedium)
                 .systemBarsPadding()
@@ -129,7 +149,7 @@ private fun ScrollableWithFixedPartsModalSheet(
         ) {
             Column(
                 modifier = Modifier
-                    .verticalScroll(scrollState)
+                    .verticalScroll(rememberScrollState())
                     .systemBarsPadding()
                     .padding(
                         top = 56.dp,
@@ -162,6 +182,67 @@ private fun ScrollableWithFixedPartsModalSheet(
                     .navigationBarsPadding()
             ) {
                 Text(text = "Fixed Button")
+            }
+        }
+    }
+}
+
+@Composable
+private fun LazyColumnModalSheet(
+    visible: Boolean,
+    onDismiss: () -> Unit,
+) {
+    ModalSheet(
+        visible = visible,
+        onDismiss = onDismiss
+    ) {
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(SpacingSmall),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(SpacingMedium)
+                .systemBarsPadding()
+        ) {
+            item {
+                Text(
+                    text = "This Scrolls",
+                    style = MaterialTheme.typography.h4
+                )
+            }
+
+            items(100) {
+                Text(
+                    text = "Item #$it",
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun LazyGridModalSheet(
+    visible: Boolean,
+    onDismiss: () -> Unit,
+) {
+    ModalSheet(
+        visible = visible,
+        onDismiss = onDismiss
+    ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.spacedBy(SpacingSmall),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(SpacingMedium)
+                .systemBarsPadding()
+        ) {
+            items(100) {
+                Text(
+                    text = "Item #$it",
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }

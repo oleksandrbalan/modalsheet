@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -25,12 +26,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import eu.wewox.modalsheet.Example
 import eu.wewox.modalsheet.ExperimentalSheetApi
 import eu.wewox.modalsheet.ModalSheet
-import eu.wewox.modalsheet.ModalSheetDefaults.Scrim
 import eu.wewox.modalsheet.ui.components.TopBar
 import eu.wewox.modalsheet.ui.theme.SpacingMedium
 import eu.wewox.modalsheet.ui.theme.SpacingSmall
@@ -70,11 +69,11 @@ private fun CustomModalSheet(
 ) {
     ModalSheet(
         visible = visible,
+        cancelable = false,
         shape = createWaveShape(),
-        backgroundColor = Color.Yellow,
-        scrim = { Scrim(it, { /* NoOp */ }, color = MaterialTheme.colors.primary) },
-        scrimClickEnabled = false,
-        swipeEnabled = false,
+        elevation = 0.dp,
+        backgroundColor = MaterialTheme.colors.secondary,
+        scrimColor = MaterialTheme.colors.primary.copy(alpha = 0.65f),
         onDismiss = { /* NoOp */ }
     ) {
         Column(
@@ -96,7 +95,10 @@ private fun CustomModalSheet(
             Text(
                 text = "Feel free to modify modal's shape, background color, scrim and interaction flags.",
             )
-            Button(onClick = onDismiss) {
+            Button(
+                onClick = onDismiss,
+                elevation = ButtonDefaults.elevation(0.dp, 0.dp),
+            ) {
                 Text(text = "Close modal sheet")
             }
         }
