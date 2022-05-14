@@ -190,10 +190,15 @@ public interface ModalSheetScope {
     public val normalizedFraction: Float
         @FloatRange(from = 0.0, to = 1.0)
         get() = with(swipeState) {
-            if (direction <= 0) {
-                progress.fraction
-            } else {
-                1f - progress.fraction
+            when {
+                progress.from == ModalBottomSheetValue.Expanded && progress.to == ModalBottomSheetValue.Expanded ->
+                    1f
+                progress.from == ModalBottomSheetValue.Hidden && progress.to == ModalBottomSheetValue.Hidden ->
+                    1f
+                direction <= 0 ->
+                    progress.fraction
+                else ->
+                    1f - progress.fraction
             }
         }
 
