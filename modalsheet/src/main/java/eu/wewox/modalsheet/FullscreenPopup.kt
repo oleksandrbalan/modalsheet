@@ -46,7 +46,7 @@ import java.util.UUID
  */
 @ExperimentalSheetApi
 @Composable
-public fun FullScreenPopup(
+internal fun FullscreenPopup(
     onDismiss: (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
@@ -91,7 +91,7 @@ public fun FullScreenPopup(
  * The layout the popup uses to display its content.
  */
 @SuppressLint("ViewConstructor")
-internal class PopupLayout(
+private class PopupLayout(
     private var onDismiss: (() -> Unit)?,
     composeView: View,
     popupId: UUID
