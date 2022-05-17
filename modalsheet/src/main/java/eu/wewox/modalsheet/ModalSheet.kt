@@ -124,7 +124,7 @@ public fun ModalSheet(
     var contentVisible by remember { mutableStateOf(false) }
 
     if (visible || contentVisible) {
-        FullScreenPopup(
+        FullscreenPopup(
             onDismiss = onDismiss
         ) {
             PopupBody(
