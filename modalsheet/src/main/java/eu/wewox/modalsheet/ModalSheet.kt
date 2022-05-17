@@ -159,7 +159,7 @@ private fun ModalSheet(
     scrimColor: Color = ModalSheetDefaults.scrimColor,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    FullScreenPopup(
+    FullscreenPopup(
         onDismiss = onDismiss,
     ) {
         ModalBottomSheetLayout(
