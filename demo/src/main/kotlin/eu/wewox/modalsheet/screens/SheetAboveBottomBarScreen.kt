@@ -82,7 +82,7 @@ private fun HomeScreen() {
     SimpleModalSheet(
         title = "Hello from Home",
         visible = visible,
-        onDismiss = { visible = !visible }
+        onVisibleChange = { visible = it }
     )
 }
 
@@ -104,7 +104,7 @@ private fun CounterScreen() {
 
     ModalSheet(
         visible = visible,
-        onDismiss = { visible = false }
+        onVisibleChange = { visible = it }
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -151,7 +151,7 @@ private fun ProfileScreen() {
 
     ModalSheet(
         visible = visible,
-        onDismiss = { visible = false }
+        onVisibleChange = { visible = it }
     ) {
         Column(
             modifier = Modifier

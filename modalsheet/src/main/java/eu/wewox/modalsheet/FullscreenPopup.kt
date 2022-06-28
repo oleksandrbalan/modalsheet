@@ -139,7 +139,7 @@ private class PopupLayout(
 
     @Suppress("ReturnCount")
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (event.keyCode == KeyEvent.KEYCODE_BACK) {
+        if (event.keyCode == KeyEvent.KEYCODE_BACK && onDismiss != null) {
             if (keyDispatcherState == null) {
                 return super.dispatchKeyEvent(event)
             }

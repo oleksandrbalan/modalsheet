@@ -52,7 +52,7 @@ fun SimpleModalSheetScreen() {
         SimpleModalSheet(
             title = "Hello there \uD83D\uDC4B",
             visible = visible,
-            onDismiss = { visible = false }
+            onVisibleChange = { visible = it }
         )
     }
 }
@@ -62,17 +62,17 @@ fun SimpleModalSheetScreen() {
  *
  * @param title The title to show inside [ModalSheet].
  * @param visible True if modal should be visible.
- * @param onDismiss Called when user touches the scrim or swipes the sheet away.
+ * @param onVisibleChange Called when visibility changes.
  */
 @Composable
 fun SimpleModalSheet(
     title: String,
     visible: Boolean,
-    onDismiss: () -> Unit,
+    onVisibleChange: (Boolean) -> Unit,
 ) {
     ModalSheet(
         visible = visible,
-        onDismiss = onDismiss
+        onVisibleChange = onVisibleChange
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -89,7 +89,7 @@ fun SimpleModalSheet(
             Text(
                 text = "Swipe down, tap on scrim above, tap on HW back button or use a button below to close modal.",
             )
-            Button(onClick = onDismiss) {
+            Button(onClick = { onVisibleChange(false) }) {
                 Text(text = "Close modal sheet")
             }
         }

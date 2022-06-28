@@ -30,4 +30,8 @@ enum class Example(
         "Custom Modal Sheet",
         "Example of customizable input arguments"
     ),
+    SheetStateModalSheet(
+        "Sheet State Modal Sheet",
+        "Example of modal sheet driven by sheet state"
+    ),
 }
