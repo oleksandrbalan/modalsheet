@@ -81,22 +81,22 @@ fun ScrollableModalSheetScreen() {
 
             ScrollableModalSheet(
                 visible = verticalScrollVisible,
-                onDismiss = { verticalScrollVisible = false }
+                onVisibleChange = { verticalScrollVisible = it }
             )
 
             ScrollableWithFixedPartsModalSheet(
                 visible = verticalScrollWithFixedVisible,
-                onDismiss = { verticalScrollWithFixedVisible = false }
+                onVisibleChange = { verticalScrollWithFixedVisible = it }
             )
 
             LazyColumnModalSheet(
                 visible = lazyColumnVisible,
-                onDismiss = { lazyColumnVisible = false }
+                onVisibleChange = { lazyColumnVisible = it }
             )
 
             LazyGridModalSheet(
                 visible = lazyGridVisible,
-                onDismiss = { lazyGridVisible = false }
+                onVisibleChange = { lazyGridVisible = it }
             )
         }
     }
@@ -105,11 +105,11 @@ fun ScrollableModalSheetScreen() {
 @Composable
 private fun ScrollableModalSheet(
     visible: Boolean,
-    onDismiss: () -> Unit,
+    onVisibleChange: (Boolean) -> Unit,
 ) {
     ModalSheet(
         visible = visible,
-        onDismiss = onDismiss
+        onVisibleChange = onVisibleChange
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -137,11 +137,11 @@ private fun ScrollableModalSheet(
 @Composable
 private fun ScrollableWithFixedPartsModalSheet(
     visible: Boolean,
-    onDismiss: () -> Unit,
+    onVisibleChange: (Boolean) -> Unit,
 ) {
     ModalSheet(
         visible = visible,
-        onDismiss = onDismiss
+        onVisibleChange = onVisibleChange
     ) {
         Box(
             modifier = Modifier
@@ -174,7 +174,7 @@ private fun ScrollableWithFixedPartsModalSheet(
                     .statusBarsPadding()
             )
             Button(
-                onClick = onDismiss,
+                onClick = { onVisibleChange(false) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
@@ -190,11 +190,11 @@ private fun ScrollableWithFixedPartsModalSheet(
 @Composable
 private fun LazyColumnModalSheet(
     visible: Boolean,
-    onDismiss: () -> Unit,
+    onVisibleChange: (Boolean) -> Unit,
 ) {
     ModalSheet(
         visible = visible,
-        onDismiss = onDismiss
+        onVisibleChange = onVisibleChange
     ) {
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -224,11 +224,11 @@ private fun LazyColumnModalSheet(
 @Composable
 private fun LazyGridModalSheet(
     visible: Boolean,
-    onDismiss: () -> Unit,
+    onVisibleChange: (Boolean) -> Unit,
 ) {
     ModalSheet(
         visible = visible,
-        onDismiss = onDismiss
+        onVisibleChange = onVisibleChange
     ) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),

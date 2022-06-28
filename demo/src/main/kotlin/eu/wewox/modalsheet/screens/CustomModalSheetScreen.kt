@@ -74,7 +74,7 @@ private fun CustomModalSheet(
         elevation = 0.dp,
         backgroundColor = MaterialTheme.colors.secondary,
         scrimColor = MaterialTheme.colors.primary.copy(alpha = 0.65f),
-        onDismiss = { /* NoOp */ }
+        onVisibleChange = { /* NoOp */ }
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
