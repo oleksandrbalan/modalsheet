@@ -22,10 +22,11 @@ import androidx.compose.ui.unit.Dp
 /**
  * Modal sheet that behaves like bottom sheet and draws over system UI.
  *
- * @param data The data to show in the content. If null, hides the modal sheet.
- * @param onVisibleChange Called when visibility changes.
- * @param cancelable True if this modal could be closed with swipe gesture, tap on scrim or tap on
- * hardware back button.
+ * @param data Value that determines the content of the sheet. Sheet is closed (or remains closed) when null is passed.
+ * @param onDataChange Called when data changes as a result of the visibility change.
+ * @param cancelable When true, this modal sheet can be closed with swipe gesture, tap on scrim or tap on hardware back
+ * button. Note: passing 'false' does not disable the interaction with the sheet. Only the resulting state after the
+ * sheet settles.
  * @param shape The shape of the bottom sheet.
  * @param elevation The elevation of the bottom sheet.
  * @param backgroundColor The background color of the bottom sheet.
@@ -80,13 +81,15 @@ public fun <T> ModalSheet(
 }
 
 /**
- * Static modal sheet that behaves like bottom sheet and draws over system UI.
- * Non-data variant should contain only static [content]. For dynamic content use [ModalSheet].
+ * Modal sheet that behaves like bottom sheet and draws over system UI.
+ * Should be used on with the content which is not dependent on the outer data. For dynamic content use [ModalSheet]
+ * overload with a 'data' parameter.
  *
  * @param visible True if modal should be visible.
  * @param onVisibleChange Called when visibility changes.
- * @param cancelable True if this modal could be closed with swipe gesture, tap on scrim or tap on
- * hardware back button.
+ * @param cancelable When true, this modal sheet can be closed with swipe gesture, tap on scrim or tap on hardware back
+ * button. Note: passing 'false' does not disable the interaction with the sheet. Only the resulting state after the
+ * sheet settles.
  * @param shape The shape of the bottom sheet.
  * @param elevation The elevation of the bottom sheet.
  * @param backgroundColor The background color of the bottom sheet.
@@ -157,13 +160,13 @@ public fun ModalSheet(
 
 /**
  * Static modal sheet that behaves like bottom sheet and draws over system UI.
- * Receives [ModalBottomSheetState] to fine-tune sheet behavior.
+ * Takes [ModalBottomSheetState] as parameter to fine-tune sheet behavior.
  *
- * Note: In this case [ModalSheet] is always added to the composition. See [ModalSheet] which receives visible flag, or
- * data object to conditionally add / remove modal sheet to / from the composition.
+ * Note: In this case [ModalSheet] is always added to the composition. See [ModalSheet] overload with visible parameter,
+ * or data object to conditionally add / remove modal sheet to / from the composition.
  *
- * @param sheetState The state of the bottom sheet.
- * @param onDismiss Called when user taps on the HW back button.
+ * @param sheetState The state of the underlying Material bottom sheet.
+ * @param onDismiss Called when user taps on the hardware back button.
  * @param shape The shape of the bottom sheet.
  * @param elevation The elevation of the bottom sheet.
  * @param backgroundColor The background color of the bottom sheet.
