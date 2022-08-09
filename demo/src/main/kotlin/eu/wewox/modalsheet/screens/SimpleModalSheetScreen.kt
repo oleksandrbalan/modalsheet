@@ -87,7 +87,8 @@ fun SimpleModalSheet(
                 style = MaterialTheme.typography.h4
             )
             Text(
-                text = "Swipe down, tap on scrim above, tap on hardware back button or use a button below to close modal.",
+                text = "Swipe down, tap on scrim above, tap on hardware " +
+                    "back button or use a button below to close modal.",
             )
             Button(onClick = { onVisibleChange(false) }) {
                 Text(text = "Close modal sheet")
