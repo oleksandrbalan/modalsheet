@@ -23,10 +23,11 @@ import androidx.compose.ui.unit.Dp
 /**
  * Modal sheet that behaves like bottom sheet and draws over system UI.
  *
- * @param data The data to show in the content. If null, hides the modal sheet.
- * @param onDismiss Called when user touches the scrim or swipes the sheet away.
- * @param cancelable True if this modal could be closed with swipe gesture, tap on scrim or tap on
- * hardware back button.
+ * @param data Value that determines the content of the sheet. Sheet is closed (or remains closed) when null is passed.
+ * @param onDataChange Called when data changes as a result of the visibility change.
+ * @param cancelable When true, this modal sheet can be closed with swipe gesture, tap on scrim or tap on hardware back
+ * button. Note: passing 'false' does not disable the interaction with the sheet. Only the resulting state after the
+ * sheet settles.
  * @param shape The shape of the bottom sheet.
  * @param elevation The elevation of the bottom sheet.
  * @param backgroundColor The background color of the bottom sheet.
@@ -43,7 +44,7 @@ import androidx.compose.ui.unit.Dp
 @Composable
 public fun <T> ModalSheet(
     data: T?,
-    onDismiss: () -> Unit,
+    onDataChange: (T?) -> Unit,
     cancelable: Boolean = true,
     shape: Shape = ModalSheetDefaults.shape,
     elevation: Dp = ModalSheetDefaults.elevation,
@@ -60,7 +61,13 @@ public fun <T> ModalSheet(
 
     ModalSheet(
         visible = data != null,
-        onDismiss = onDismiss,
+        onVisibleChange = { visible ->
+            if (visible) {
+                onDataChange(lastNonNullData)
+            } else {
+                onDataChange(null)
+            }
+        },
         cancelable = cancelable,
         shape = shape,
         elevation = elevation,
@@ -75,13 +82,15 @@ public fun <T> ModalSheet(
 }
 
 /**
- * Static modal sheet that behaves like bottom sheet and draws over system UI.
- * Non-data variant should contain only static [content]. For dynamic content use [ModalSheet].
+ * Modal sheet that behaves like bottom sheet and draws over system UI.
+ * Should be used on with the content which is not dependent on the outer data. For dynamic content use [ModalSheet]
+ * overload with a 'data' parameter.
  *
  * @param visible True if modal should be visible.
- * @param onDismiss Called when user touches the scrim or swipes the sheet away.
- * @param cancelable True if this modal could be closed with swipe gesture, tap on scrim or tap on
- * hardware back button.
+ * @param onVisibleChange Called when visibility changes.
+ * @param cancelable When true, this modal sheet can be closed with swipe gesture, tap on scrim or tap on hardware back
+ * button. Note: passing 'false' does not disable the interaction with the sheet. Only the resulting state after the
+ * sheet settles.
  * @param shape The shape of the bottom sheet.
  * @param elevation The elevation of the bottom sheet.
  * @param backgroundColor The background color of the bottom sheet.
@@ -98,7 +107,7 @@ public fun <T> ModalSheet(
 @Composable
 public fun ModalSheet(
     visible: Boolean,
-    onDismiss: () -> Unit,
+    onVisibleChange: (Boolean) -> Unit,
     cancelable: Boolean = true,
     shape: Shape = ModalSheetDefaults.shape,
     elevation: Dp = ModalSheetDefaults.elevation,
@@ -112,15 +121,17 @@ public fun ModalSheet(
         initialValue = ModalBottomSheetValue.Hidden,
         confirmStateChange = {
             // Intercept and disallow hide gesture / action
-            if (it == ModalBottomSheetValue.Hidden && cancelable) {
-                onDismiss()
+            if (it == ModalBottomSheetValue.Hidden && !cancelable) {
+                return@rememberModalBottomSheetState false
             }
-            false
+
+            onVisibleChange(it == ModalBottomSheetValue.Expanded)
+
+            true
         }
     )
 
-    // Remove modal from hierarchy completely when it is not needed
-    if (!visible && !sheetState.isAnimationRunning && !sheetState.isVisible) {
+    if (!visible && sheetState.progress.to == sheetState.progress.from && !sheetState.isVisible) {
         return
     }
 
@@ -136,7 +147,7 @@ public fun ModalSheet(
         sheetState = sheetState,
         onDismiss = {
             if (cancelable) {
-                onDismiss()
+                onVisibleChange(false)
             }
         },
         shape = shape,
@@ -148,11 +159,32 @@ public fun ModalSheet(
     )
 }
 
+/**
+ * Modal sheet that behaves like bottom sheet and draws over system UI.
+ * Takes [ModalBottomSheetState] as parameter to fine-tune sheet behavior.
+ *
+ * Note: In this case [ModalSheet] is always added to the composition. See [ModalSheet] overload with visible parameter,
+ * or data object to conditionally add / remove modal sheet to / from the composition.
+ *
+ * @param sheetState The state of the underlying Material bottom sheet.
+ * @param onDismiss Called when user taps on the hardware back button.
+ * @param shape The shape of the bottom sheet.
+ * @param elevation The elevation of the bottom sheet.
+ * @param backgroundColor The background color of the bottom sheet.
+ * @param contentColor The preferred content color provided by the bottom sheet to its
+ * children. Defaults to the matching content color for [backgroundColor], or if that is not
+ * a color from the theme, this will keep the same content color set above the bottom sheet.
+ * @param scrimColor The color of the scrim that is applied to the rest of the screen when the
+ * bottom sheet is visible. If the color passed is [Color.Unspecified], then a scrim will no
+ * longer be applied and the bottom sheet will not block interaction with the rest of the screen
+ * when visible.
+ * @param content The content of the bottom sheet.
+ */
 @ExperimentalSheetApi
 @Composable
-private fun ModalSheet(
+public fun ModalSheet(
     sheetState: ModalBottomSheetState,
-    onDismiss: () -> Unit,
+    onDismiss: (() -> Unit)?,
     shape: Shape = ModalSheetDefaults.shape,
     elevation: Dp = ModalSheetDefaults.elevation,
     backgroundColor: Color = ModalSheetDefaults.backgroundColor,
@@ -160,7 +192,7 @@ private fun ModalSheet(
     scrimColor: Color = ModalSheetDefaults.scrimColor,
     content: @Composable ModalSheetScope.() -> Unit,
 ) {
-    FullScreenPopup(
+    FullscreenPopup(
         onDismiss = onDismiss,
     ) {
         ModalBottomSheetLayout(

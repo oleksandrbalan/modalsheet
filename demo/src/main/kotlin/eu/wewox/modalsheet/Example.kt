@@ -34,8 +34,8 @@ enum class Example(
         "Observable Modal Sheet",
         "Example how progress of modal sheet could be observed"
     ),
-    CustomFullScreenPopup(
-        "Custom FullScreen Popup",
-        "Bonus: Use internal fullscreen popup to build your own components"
+    SheetStateModalSheet(
+        "Sheet State Modal Sheet",
+        "Example of modal sheet driven by sheet state"
     ),
 }

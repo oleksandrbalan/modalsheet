@@ -61,7 +61,7 @@ fun ObservableModalSheetScreen() {
 
         ObservableModalSheet(
             visible = visible,
-            onDismiss = { visible = false }
+            onVisibleChange = { visible = it }
         )
     }
 }
@@ -69,7 +69,7 @@ fun ObservableModalSheetScreen() {
 @Composable
 private fun ObservableModalSheet(
     visible: Boolean,
-    onDismiss: () -> Unit,
+    onVisibleChange: (Boolean) -> Unit,
 ) {
     val collapsedCornerRadius = 100
     var cornerRadius by remember { mutableStateOf(collapsedCornerRadius) }
@@ -77,7 +77,7 @@ private fun ObservableModalSheet(
         visible = visible,
         shape = RoundedCornerShape(topStartPercent = cornerRadius, topEndPercent = cornerRadius),
         backgroundColor = MaterialTheme.colors.primary,
-        onDismiss = onDismiss
+        onVisibleChange = onVisibleChange
     ) {
         // Apply fraction only from second half
         val adjustedFraction = ((normalizedFraction - 0.5f) / 0.5f).coerceAtLeast(0f)

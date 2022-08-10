@@ -28,7 +28,8 @@ import androidx.compose.ui.semantics.popup
 import androidx.compose.ui.semantics.semantics
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.lifecycle.ViewTreeViewModelStoreOwner
-import androidx.savedstate.ViewTreeSavedStateRegistryOwner
+import androidx.savedstate.findViewTreeSavedStateRegistryOwner
+import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import java.util.UUID
 
 /**
@@ -45,7 +46,7 @@ import java.util.UUID
  */
 @ExperimentalSheetApi
 @Composable
-public fun FullScreenPopup(
+internal fun FullscreenPopup(
     onDismiss: (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
@@ -90,7 +91,7 @@ public fun FullScreenPopup(
  * The layout the popup uses to display its content.
  */
 @SuppressLint("ViewConstructor")
-internal class PopupLayout(
+private class PopupLayout(
     private var onDismiss: (() -> Unit)?,
     composeView: View,
     popupId: UUID
@@ -105,7 +106,7 @@ internal class PopupLayout(
         id = android.R.id.content
         ViewTreeLifecycleOwner.set(this, ViewTreeLifecycleOwner.get(composeView))
         ViewTreeViewModelStoreOwner.set(this, ViewTreeViewModelStoreOwner.get(composeView))
-        ViewTreeSavedStateRegistryOwner.set(this, ViewTreeSavedStateRegistryOwner.get(composeView))
+        setViewTreeSavedStateRegistryOwner(composeView.findViewTreeSavedStateRegistryOwner())
         // Set unique id for AbstractComposeView. This allows state restoration for the state
         // defined inside the Popup via rememberSaveable()
         setTag(R.id.compose_view_saveable_id_tag, "Popup:$popupId")
@@ -138,7 +139,7 @@ internal class PopupLayout(
 
     @Suppress("ReturnCount")
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (event.keyCode == KeyEvent.KEYCODE_BACK) {
+        if (event.keyCode == KeyEvent.KEYCODE_BACK && onDismiss != null) {
             if (keyDispatcherState == null) {
                 return super.dispatchKeyEvent(event)
             }
