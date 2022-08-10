@@ -59,7 +59,7 @@ fun DynamicModalSheetScreen() {
 
         ErrorModalSheet(
             error = error,
-            onDismiss = { error = null }
+            onDataChange = { error = it }
         )
     }
 }
@@ -67,11 +67,11 @@ fun DynamicModalSheetScreen() {
 @Composable
 private fun ErrorModalSheet(
     error: ErrorData?,
-    onDismiss: () -> Unit,
+    onDataChange: (ErrorData?) -> Unit,
 ) {
     ModalSheet(
         data = error,
-        onDismiss = onDismiss
+        onDataChange = onDataChange
     ) { data ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -88,6 +88,9 @@ private fun ErrorModalSheet(
             Text(
                 text = data.message,
             )
+            Button(onClick = { onDataChange(null) }) {
+                Text(text = "Close modal sheet")
+            }
         }
     }
 }
