@@ -159,7 +159,7 @@ public fun ModalSheet(
 }
 
 /**
- * Static modal sheet that behaves like bottom sheet and draws over system UI.
+ * Modal sheet that behaves like bottom sheet and draws over system UI.
  * Takes [ModalBottomSheetState] as parameter to fine-tune sheet behavior.
  *
  * Note: In this case [ModalSheet] is always added to the composition. See [ModalSheet] overload with visible parameter,
