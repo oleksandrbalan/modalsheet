@@ -203,7 +203,8 @@ public fun ModalSheet(
             sheetContentColor = contentColor,
             scrimColor = scrimColor,
             sheetContent = {
-                ModalSheetScopeImpl(sheetState).content()
+                val scope = remember(sheetState) { ModalSheetScopeImpl(sheetState) }
+                scope.content()
             },
             content = { /* Empty */ }
         )
@@ -226,7 +227,7 @@ public interface ModalSheetScope {
                 progress.from == ModalBottomSheetValue.Expanded && progress.to == ModalBottomSheetValue.Expanded ->
                     1f
                 progress.from == ModalBottomSheetValue.Hidden && progress.to == ModalBottomSheetValue.Hidden ->
-                    1f
+                    0f
                 direction <= 0 ->
                     progress.fraction
                 else ->
