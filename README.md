@@ -69,9 +69,9 @@ See Demo application and [examples](demo/src/main/kotlin/eu/wewox/modalsheet/scr
 
 Library also has a `ModalSheet` overload which receives `data` to be shown in the bottom sheet. When `data` is not null, bottom sheet is shown; when `null`, bottom sheet is hidden.
 
-This is useful when bottom sheet content dependents on some state, which may be change with a time, for example the bottom sheet which shows an error message. See [DynamicModalSheetScreen](demo/src/main/kotlin/eu/wewox/modalsheet/screens/DynamicModalSheetScreen).
+This is useful when bottom sheet content dependents on some state, which may be change with a time, for example the bottom sheet which shows an error message. See [DynamicModalSheetScreen](demo/src/main/kotlin/eu/wewox/modalsheet/screens/DynamicModalSheetScreen.kt).
 
-Also there is an option to use `ModalSheet` overload with `ModalBottomSheetState` to have a full control when sheet should be shown or hidden. See [SheetStateModalSheetScreen](demo/src/main/kotlin/eu/wewox/modalsheet/screens/SheetStateModalSheetScreen).
+Also there is an option to use `ModalSheet` overload with `ModalBottomSheetState` to have a full control when sheet should be shown or hidden. See [SheetStateModalSheetScreen](demo/src/main/kotlin/eu/wewox/modalsheet/screens/SheetStateModalSheetScreen.kt).
 
 ## Authors
 
