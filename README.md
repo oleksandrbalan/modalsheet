@@ -41,9 +41,9 @@ dependencies {
 
 ### Use in Composable
 
-The `ModalSheet` has 2 mandatory arguments: 
+The `ModalSheet` has 2 mandatory arguments:
 * **visible** - True if modal should be visible.
-* **onDismiss** - Lambda which is called when user touches the scrim or swipes the sheet away.
+* **onVisibleChange** -  Called when visibility changes.
 
 ```
 var visible by remember { mutableStateOf(false) }
@@ -54,9 +54,8 @@ Button(onClick = { visible = true }) {
 
 ModalSheet(
     visible = visible,
-    onDismiss = { visible = false },
+    onVisibleChange = { visible = it },
 ) {
-    
     Box(Modifier.height(200.dp))
 }
 ```
@@ -64,6 +63,15 @@ ModalSheet(
 See Demo application and [examples](demo/src/main/kotlin/eu/wewox/modalsheet/screens) for more usage examples.
 
 <img src="https://user-images.githubusercontent.com/20944869/166837599-3b7423db-cee1-4444-b760-3986bc1aa695.gif" width="250" />&emsp;<img src="https://user-images.githubusercontent.com/20944869/166837878-06c73b4e-6b6e-4eae-ab91-56ba2dffbb8d.gif" width="250" />
+
+
+#### Alternative overloads
+
+Library also has an `ModalSheet` overload which receives `data` to be shown in the bottom sheet. When `data` is not null, bottom sheet is shown; when `null`, bottom sheet is hidden.
+
+This is useful when bottom sheet content is dependent on some state, which may be change with a time, for example the bottom sheet showing an error message. See [DynamicModalSheetScreen](demo/src/main/kotlin/eu/wewox/modalsheet/screens/DynamicModalSheetScreen).
+
+Also there is an option to use `ModalSheet` overload with `ModalBottomSheetState` to have full control when sheet should be shown or hidden. See [SheetStateModalSheetScreen](demo/src/main/kotlin/eu/wewox/modalsheet/screens/SheetStateModalSheetScreen).
 
 ## Authors
 
