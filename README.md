@@ -82,5 +82,4 @@ Also there is an option to use `ModalSheet` overload with `ModalBottomSheetState
 
 ## TODO list
 
-* Add support for LazyColumn and LazyVerticalGrid inside modal sheet.
 * Provide swipe state to `ModalSheetScope`
