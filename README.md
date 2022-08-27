@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/oleksandrbalan/modalsheet.svg)](https://jitpack.io/#oleksandrbalan/modalsheet)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.oleksandrbalan/modalsheet.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.oleksandrbalan/modalsheet)
 
 # Modal Sheet
 
@@ -20,13 +20,23 @@ The `FullScreenPopup` is public, thus can be used to create own "modal" Composab
 
 ### Get a dependency
 
-**Step 1.** Add the JitPack repository to your build file.
-Add it in your root build.gradle at the end of repositories:
+**Step 1.** Add the MavenCentral repository to your build file.
+Add it in your root `build.gradle` at the end of repositories:
 ```
 allprojects {
     repositories {
         ...
-        maven { url 'https://jitpack.io' }
+        mavenCentral()
+    }
+}
+```
+
+Or in `settings.gradle`:
+```
+pluginManagement {
+    repositories {
+        ...
+        mavenCentral()
     }
 }
 ```
@@ -35,9 +45,8 @@ allprojects {
 Check latest version on the [releases page](https://github.com/oleksandrbalan/modalsheet/releases).
 ```
 dependencies {
-    implementation 'com.github.oleksandrbalan:modalsheet:$version'
+    implementation 'io.github.oleksandrbalan:modalsheet:$version'
 }
-```
 
 ### Use in Composable
 
