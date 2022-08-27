@@ -47,6 +47,7 @@ Check latest version on the [releases page](https://github.com/oleksandrbalan/mo
 dependencies {
     implementation 'io.github.oleksandrbalan:modalsheet:$version'
 }
+```
 
 ### Use in Composable
 
