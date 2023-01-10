@@ -1,5 +1,7 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.oleksandrbalan/modalsheet.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.oleksandrbalan/modalsheet)
 
+<img align="right" src="https://user-images.githubusercontent.com/20944869/211682502-ea30da26-178f-4e91-82d3-75207dbb6356.png">
+
 # Modal Sheet
 
 Modal Sheet library for Jetpack Compose.
