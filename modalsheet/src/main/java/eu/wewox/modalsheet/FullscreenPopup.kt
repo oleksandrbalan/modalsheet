@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.ViewRootForInspector
 import androidx.compose.ui.semantics.popup
 import androidx.compose.ui.semantics.semantics
+import androidx.core.view.children
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.lifecycle.ViewTreeViewModelStoreOwner
 import androidx.savedstate.findViewTreeSavedStateRegistryOwner
@@ -110,6 +111,7 @@ private class PopupLayout(
         // Set unique id for AbstractComposeView. This allows state restoration for the state
         // defined inside the Popup via rememberSaveable()
         setTag(R.id.compose_view_saveable_id_tag, "Popup:$popupId")
+        setTag(R.id.consume_window_insets_tag, false)
     }
 
     private var content: @Composable () -> Unit by mutableStateOf({})
@@ -118,8 +120,11 @@ private class PopupLayout(
         private set
 
     fun show() {
+        // Place popup above all current views
+        z = decorView.children.maxOf { it.z } + 1
         decorView.addView(
             this,
+            0,
             MarginLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         )
 
