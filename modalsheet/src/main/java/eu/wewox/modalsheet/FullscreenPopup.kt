@@ -27,8 +27,10 @@ import androidx.compose.ui.platform.ViewRootForInspector
 import androidx.compose.ui.semantics.popup
 import androidx.compose.ui.semantics.semantics
 import androidx.core.view.children
-import androidx.lifecycle.ViewTreeLifecycleOwner
-import androidx.lifecycle.ViewTreeViewModelStoreOwner
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.findViewTreeViewModelStoreOwner
+import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.lifecycle.setViewTreeViewModelStoreOwner
 import androidx.savedstate.findViewTreeSavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import java.util.UUID
@@ -105,8 +107,8 @@ private class PopupLayout(
 
     init {
         id = android.R.id.content
-        ViewTreeLifecycleOwner.set(this, ViewTreeLifecycleOwner.get(composeView))
-        ViewTreeViewModelStoreOwner.set(this, ViewTreeViewModelStoreOwner.get(composeView))
+        setViewTreeLifecycleOwner(composeView.findViewTreeLifecycleOwner())
+        setViewTreeViewModelStoreOwner(composeView.findViewTreeViewModelStoreOwner())
         setViewTreeSavedStateRegistryOwner(composeView.findViewTreeSavedStateRegistryOwner())
         // Set unique id for AbstractComposeView. This allows state restoration for the state
         // defined inside the Popup via rememberSaveable()
@@ -170,7 +172,7 @@ private class PopupLayout(
     }
 
     fun dismiss() {
-        ViewTreeLifecycleOwner.set(this, null)
+        setViewTreeLifecycleOwner(null)
         decorView.removeView(this)
     }
 }

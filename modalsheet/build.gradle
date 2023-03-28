@@ -48,4 +48,5 @@ dependencies {
     implementation("androidx.compose.material:material")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version")
 }
