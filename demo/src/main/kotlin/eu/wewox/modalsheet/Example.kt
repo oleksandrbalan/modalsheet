@@ -34,4 +34,8 @@ enum class Example(
         "Sheet State Modal Sheet",
         "Example of modal sheet driven by sheet state"
     ),
+    BackHandlerInModalSheet(
+        "Back Handler In Modal Sheet",
+        "Example of modal sheet with overridden system back button behavior"
+    ),
 }
