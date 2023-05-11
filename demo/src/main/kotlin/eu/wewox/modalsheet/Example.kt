@@ -34,4 +34,8 @@ enum class Example(
         "Sheet State Modal Sheet",
         "Example of modal sheet driven by sheet state"
     ),
+    ModalSheetPadding(
+        "Padding In Modal Sheet",
+        "Example of the sheet padding parameter usage"
+    ),
 }
