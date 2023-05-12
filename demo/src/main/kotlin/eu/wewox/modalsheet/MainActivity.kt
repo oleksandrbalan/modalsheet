@@ -29,6 +29,7 @@ import androidx.core.view.WindowCompat
 import eu.wewox.modalsheet.screens.BackHandlerInModalSheetScreen
 import eu.wewox.modalsheet.screens.CustomModalSheetScreen
 import eu.wewox.modalsheet.screens.DynamicModalSheetScreen
+import eu.wewox.modalsheet.screens.ModalSheetPaddingScreen
 import eu.wewox.modalsheet.screens.ScrollableModalSheetScreen
 import eu.wewox.modalsheet.screens.SheetAboveBottomBarScreen
 import eu.wewox.modalsheet.screens.SheetStateModalSheetScreen
@@ -64,6 +65,7 @@ class MainActivity : ComponentActivity() {
                         Example.ScrollableModalSheet -> ScrollableModalSheetScreen()
                         Example.CustomModalSheet -> CustomModalSheetScreen()
                         Example.SheetStateModalSheet -> SheetStateModalSheetScreen()
+                        Example.ModalSheetPadding -> ModalSheetPaddingScreen()
                         Example.BackHandlerInModalSheet -> BackHandlerInModalSheetScreen()
                     }
                 }

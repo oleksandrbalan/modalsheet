@@ -1,6 +1,8 @@
 package eu.wewox.modalsheet
 
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetDefaults
 import androidx.compose.material.ModalBottomSheetLayout
@@ -15,9 +17,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 /**
  * Modal sheet that behaves like bottom sheet and draws over system UI.
@@ -39,6 +44,7 @@ import androidx.compose.ui.unit.Dp
  * bottom sheet is visible. If the color passed is [Color.Unspecified], then a scrim will no
  * longer be applied and the bottom sheet will not block interaction with the rest of the screen
  * when visible.
+ * @param sheetPadding The padding to apply on the whole modal sheet. Could be used to draw above (on y axis) system UI.
  * @param content The content of the bottom sheet.
  */
 @ExperimentalSheetApi
@@ -53,6 +59,7 @@ public fun <T> ModalSheet(
     backgroundColor: Color = ModalSheetDefaults.backgroundColor,
     contentColor: Color = contentColorFor(backgroundColor),
     scrimColor: Color = ModalSheetDefaults.scrimColor,
+    sheetPadding: PaddingValues = PaddingValues(0.dp),
     content: @Composable ColumnScope.(T) -> Unit,
 ) {
     var lastNonNullData by remember { mutableStateOf(data) }
@@ -77,6 +84,7 @@ public fun <T> ModalSheet(
         backgroundColor = backgroundColor,
         contentColor = contentColor,
         scrimColor = scrimColor,
+        sheetPadding = sheetPadding,
     ) {
         lastNonNullData?.let {
             content(it)
@@ -106,6 +114,7 @@ public fun <T> ModalSheet(
  * bottom sheet is visible. If the color passed is [Color.Unspecified], then a scrim will no
  * longer be applied and the bottom sheet will not block interaction with the rest of the screen
  * when visible.
+ * @param sheetPadding The padding to apply on the whole modal sheet. Could be used to draw above (on y axis) system UI.
  * @param content The content of the bottom sheet.
  */
 @ExperimentalSheetApi
@@ -120,6 +129,7 @@ public fun ModalSheet(
     backgroundColor: Color = ModalSheetDefaults.backgroundColor,
     contentColor: Color = contentColorFor(backgroundColor),
     scrimColor: Color = ModalSheetDefaults.scrimColor,
+    sheetPadding: PaddingValues = PaddingValues(0.dp),
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(
@@ -157,6 +167,7 @@ public fun ModalSheet(
         backgroundColor = backgroundColor,
         contentColor = contentColor,
         scrimColor = scrimColor,
+        sheetPadding = sheetPadding,
         content = content,
     )
 }
@@ -180,6 +191,7 @@ public fun ModalSheet(
  * bottom sheet is visible. If the color passed is [Color.Unspecified], then a scrim will no
  * longer be applied and the bottom sheet will not block interaction with the rest of the screen
  * when visible.
+ * @param sheetPadding The padding to apply on the whole modal sheet. Could be used to draw above (on y axis) system UI.
  * @param content The content of the bottom sheet.
  */
 @ExperimentalSheetApi
@@ -192,6 +204,7 @@ public fun ModalSheet(
     backgroundColor: Color = ModalSheetDefaults.backgroundColor,
     contentColor: Color = contentColorFor(backgroundColor),
     scrimColor: Color = ModalSheetDefaults.scrimColor,
+    sheetPadding: PaddingValues = PaddingValues(0.dp),
     content: @Composable ColumnScope.() -> Unit,
 ) {
     FullscreenPopup(
@@ -205,7 +218,10 @@ public fun ModalSheet(
             sheetContentColor = contentColor,
             scrimColor = scrimColor,
             sheetContent = content,
-            content = { /* Empty */ }
+            content = { /* Empty */ },
+            modifier = Modifier
+                .padding(sheetPadding)
+                .clipToBounds(),
         )
     }
 }
