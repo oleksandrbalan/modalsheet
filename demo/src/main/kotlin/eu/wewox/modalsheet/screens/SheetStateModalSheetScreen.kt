@@ -109,7 +109,7 @@ private fun PageModalSheet(
 ) {
     ModalSheet(
         sheetState = sheetState,
-        onBack = if (sheetState.isVisible || sheetState.currentValue != sheetState.targetValue) onPrev else null
+        onSystemBack = if (sheetState.isVisible || sheetState.currentValue != sheetState.targetValue) onPrev else null
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

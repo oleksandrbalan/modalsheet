@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
  * @param cancelable When true, this modal sheet can be closed with swipe gesture, tap on scrim or tap on system back
  * button. Note: passing 'false' does not disable the interaction with the sheet. Only the resulting state after the
  * sheet settles.
- * @param onBack The action invoked by pressing the system back button. By default sets the data to 'null' if
+ * @param onSystemBack The action invoked by pressing the system back button. By default sets the data to 'null' if
  * [cancelable] is set to true. Could be overridden or set to 'null' to react on system back button press.
  * @param shape The shape of the bottom sheet.
  * @param elevation The elevation of the bottom sheet.
@@ -53,7 +53,7 @@ public fun <T> ModalSheet(
     data: T?,
     onDataChange: (T?) -> Unit,
     cancelable: Boolean = true,
-    onBack: (() -> Unit)? = { onDataChange(null) },
+    onSystemBack: (() -> Unit)? = { onDataChange(null) },
     shape: Shape = ModalSheetDefaults.shape,
     elevation: Dp = ModalSheetDefaults.elevation,
     backgroundColor: Color = ModalSheetDefaults.backgroundColor,
@@ -77,7 +77,7 @@ public fun <T> ModalSheet(
                 onDataChange(null)
             }
         },
-        onBack = onBack,
+        onSystemBack = onSystemBack,
         cancelable = cancelable,
         shape = shape,
         elevation = elevation,
@@ -102,8 +102,8 @@ public fun <T> ModalSheet(
  * @param cancelable When true, this modal sheet can be closed with swipe gesture, tap on scrim or tap on system back
  * button. Note: passing 'false' does not disable the interaction with the sheet. Only the resulting state after the
  * sheet settles.
- * @param onBack The action invoked by pressing the system back button. By default sets the visibility to false if
- * [cancelable] is set to true. Could be overridden or set to 'null' to react on system back button press.
+ * @param onSystemBack The action invoked by pressing the system back button. By default sets the visibility to false
+ * if [cancelable] is set to true. Could be overridden or set to 'null' to react on system back button press.
  * @param shape The shape of the bottom sheet.
  * @param elevation The elevation of the bottom sheet.
  * @param backgroundColor The background color of the bottom sheet.
@@ -123,7 +123,7 @@ public fun ModalSheet(
     visible: Boolean,
     onVisibleChange: (Boolean) -> Unit,
     cancelable: Boolean = true,
-    onBack: (() -> Unit)? = { onVisibleChange(false) },
+    onSystemBack: (() -> Unit)? = { onVisibleChange(false) },
     shape: Shape = ModalSheetDefaults.shape,
     elevation: Dp = ModalSheetDefaults.elevation,
     backgroundColor: Color = ModalSheetDefaults.backgroundColor,
@@ -161,7 +161,7 @@ public fun ModalSheet(
 
     ModalSheet(
         sheetState = sheetState,
-        onBack = if (onBack != null) { { if (cancelable) onBack() } } else { null },
+        onSystemBack = if (onSystemBack != null) { { if (cancelable) onSystemBack() } } else { null },
         shape = shape,
         elevation = elevation,
         backgroundColor = backgroundColor,
@@ -180,7 +180,7 @@ public fun ModalSheet(
  * or data object to conditionally add / remove modal sheet to / from the composition.
  *
  * @param sheetState The state of the underlying Material bottom sheet.
- * @param onBack The action invoked by pressing the system back button.
+ * @param onSystemBack The action invoked by pressing the system back button.
  * @param shape The shape of the bottom sheet.
  * @param elevation The elevation of the bottom sheet.
  * @param backgroundColor The background color of the bottom sheet.
@@ -198,7 +198,7 @@ public fun ModalSheet(
 @Composable
 public fun ModalSheet(
     sheetState: ModalBottomSheetState,
-    onBack: (() -> Unit)?,
+    onSystemBack: (() -> Unit)?,
     shape: Shape = ModalSheetDefaults.shape,
     elevation: Dp = ModalSheetDefaults.elevation,
     backgroundColor: Color = ModalSheetDefaults.backgroundColor,
@@ -208,7 +208,7 @@ public fun ModalSheet(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     FullscreenPopup(
-        onBack = onBack,
+        onSystemBack = onSystemBack,
     ) {
         ModalBottomSheetLayout(
             sheetState = sheetState,
