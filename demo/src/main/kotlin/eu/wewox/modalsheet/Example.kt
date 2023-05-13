@@ -38,4 +38,8 @@ enum class Example(
         "Padding In Modal Sheet",
         "Example of the sheet padding parameter usage"
     ),
+    BackHandlerInModalSheet(
+        "Back Handler In Modal Sheet",
+        "Example of modal sheet with overridden system back button behavior"
+    ),
 }

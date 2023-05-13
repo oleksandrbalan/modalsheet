@@ -44,13 +44,13 @@ import java.util.UUID
  * * Adds the view to the decor view of the window, instead of the window itself.
  * * Do not have properties, as Popup is laid out as fullscreen.
  *
- * @param onDismiss Executes when the user clicks outside of the popup.
+ * @param onSystemBack The action invoked by pressing the system back button.
  * @param content The content to be displayed inside the popup.
  */
 @ExperimentalSheetApi
 @Composable
 internal fun FullscreenPopup(
-    onDismiss: (() -> Unit)? = null,
+    onSystemBack: (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
     val view = LocalView.current
@@ -59,7 +59,7 @@ internal fun FullscreenPopup(
     val popupId = rememberSaveable { UUID.randomUUID() }
     val popupLayout = remember {
         PopupLayout(
-            onDismiss = onDismiss,
+            onSystemBack = onSystemBack,
             composeView = view,
             popupId = popupId
         ).apply {
@@ -74,7 +74,7 @@ internal fun FullscreenPopup(
     DisposableEffect(popupLayout) {
         popupLayout.show()
         popupLayout.updateParameters(
-            onDismiss = onDismiss
+            onSystemBack = onSystemBack
         )
         onDispose {
             popupLayout.disposeComposition()
@@ -85,7 +85,7 @@ internal fun FullscreenPopup(
 
     SideEffect {
         popupLayout.updateParameters(
-            onDismiss = onDismiss
+            onSystemBack = onSystemBack
         )
     }
 }
@@ -95,7 +95,7 @@ internal fun FullscreenPopup(
  */
 @SuppressLint("ViewConstructor")
 private class PopupLayout(
-    private var onDismiss: (() -> Unit)?,
+    private var onSystemBack: (() -> Unit)?,
     composeView: View,
     popupId: UUID
 ) : AbstractComposeView(composeView.context),
@@ -146,7 +146,7 @@ private class PopupLayout(
 
     @Suppress("ReturnCount")
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (event.keyCode == KeyEvent.KEYCODE_BACK && onDismiss != null) {
+        if (event.keyCode == KeyEvent.KEYCODE_BACK && onSystemBack != null) {
             if (keyDispatcherState == null) {
                 return super.dispatchKeyEvent(event)
             }
@@ -157,7 +157,7 @@ private class PopupLayout(
             } else if (event.action == KeyEvent.ACTION_UP) {
                 val state = keyDispatcherState
                 if (state != null && state.isTracking(event) && !event.isCanceled) {
-                    onDismiss?.invoke()
+                    onSystemBack?.invoke()
                     return true
                 }
             }
@@ -166,9 +166,9 @@ private class PopupLayout(
     }
 
     fun updateParameters(
-        onDismiss: (() -> Unit)?
+        onSystemBack: (() -> Unit)?
     ) {
-        this.onDismiss = onDismiss
+        this.onSystemBack = onSystemBack
     }
 
     fun dismiss() {
