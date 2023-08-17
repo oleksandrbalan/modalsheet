@@ -1,10 +1,9 @@
-@file:OptIn(ExperimentalSheetApi::class, ExperimentalAnimationApi::class)
+@file:OptIn(ExperimentalSheetApi::class)
 
 package eu.wewox.modalsheet.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -72,7 +71,7 @@ private fun ThreeStatesModalSheet(
     ) {
         var state by remember { mutableStateOf(0) }
 
-        AnimatedContent(targetState = state) { currentState ->
+        AnimatedContent(targetState = state, label = "State animation") { currentState ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(SpacingSmall),

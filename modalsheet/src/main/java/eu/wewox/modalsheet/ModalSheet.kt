@@ -140,9 +140,6 @@ public fun ModalSheet(
             if (it == ModalBottomSheetValue.Hidden && !cancelable) {
                 return@rememberModalBottomSheetState false
             }
-
-            onVisibleChange(it == ModalBottomSheetValue.Expanded)
-
             true
         },
     )
@@ -152,6 +149,15 @@ public fun ModalSheet(
             sheetState.show()
         } else {
             sheetState.hide()
+        }
+    }
+
+    LaunchedEffect(sheetState.currentValue, sheetState.targetValue, sheetState.progress) {
+        if (sheetState.progress == 1f && sheetState.currentValue == sheetState.targetValue) {
+            val newVisible = sheetState.isVisible
+            if (newVisible != visible) {
+                onVisibleChange(newVisible)
+            }
         }
     }
 
