@@ -49,7 +49,7 @@ fun SheetAboveBottomBarScreen() {
             )
         }
     ) { padding ->
-        Crossfade(targetState = item) { current ->
+        Crossfade(targetState = item, label = "Tab animation") { current ->
             Scaffold(
                 topBar = { TopBar(current.title) },
                 modifier = Modifier.padding(padding)
