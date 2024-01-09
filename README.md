@@ -35,7 +35,7 @@ allprojects {
 
 Or in `settings.gradle`:
 ```
-pluginManagement {
+dependencyResolutionManagement {
     repositories {
         ...
         mavenCentral()
