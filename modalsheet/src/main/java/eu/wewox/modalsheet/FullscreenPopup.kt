@@ -4,14 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionContext
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,11 +58,13 @@ internal fun FullscreenPopup(
     val popupId = rememberSaveable { UUID.randomUUID() }
     val popupLayout = remember {
         PopupLayout(
-            onSystemBack = onSystemBack,
             composeView = view,
-            popupId = popupId
+            popupId = popupId,
         ).apply {
             setContent(parentComposition) {
+                BackHandler(onSystemBack != null) {
+                    onSystemBack?.invoke()
+                }
                 Box(Modifier.semantics { this.popup() }) {
                     currentContent()
                 }
@@ -73,20 +74,11 @@ internal fun FullscreenPopup(
 
     DisposableEffect(popupLayout) {
         popupLayout.show()
-        popupLayout.updateParameters(
-            onSystemBack = onSystemBack
-        )
         onDispose {
             popupLayout.disposeComposition()
             // Remove the window
             popupLayout.dismiss()
         }
-    }
-
-    SideEffect {
-        popupLayout.updateParameters(
-            onSystemBack = onSystemBack
-        )
     }
 }
 
@@ -95,7 +87,6 @@ internal fun FullscreenPopup(
  */
 @SuppressLint("ViewConstructor")
 private class PopupLayout(
-    private var onSystemBack: (() -> Unit)?,
     composeView: View,
     popupId: UUID
 ) : AbstractComposeView(composeView.context),
@@ -142,33 +133,6 @@ private class PopupLayout(
     @Composable
     override fun Content() {
         content()
-    }
-
-    @Suppress("ReturnCount")
-    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (event.keyCode == KeyEvent.KEYCODE_BACK && onSystemBack != null) {
-            if (keyDispatcherState == null) {
-                return super.dispatchKeyEvent(event)
-            }
-            if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) {
-                val state = keyDispatcherState
-                state?.startTracking(event, this)
-                return true
-            } else if (event.action == KeyEvent.ACTION_UP) {
-                val state = keyDispatcherState
-                if (state != null && state.isTracking(event) && !event.isCanceled) {
-                    onSystemBack?.invoke()
-                    return true
-                }
-            }
-        }
-        return super.dispatchKeyEvent(event)
-    }
-
-    fun updateParameters(
-        onSystemBack: (() -> Unit)?
-    ) {
-        this.onSystemBack = onSystemBack
     }
 
     fun dismiss() {
