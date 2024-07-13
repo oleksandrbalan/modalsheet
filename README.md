@@ -16,8 +16,6 @@ The `ModalSheet` Composable from this library allows creating real modal bottom 
 
 The `ModalSheet` Composable internally uses `FullScreenPopup` which is basically a window placed above the current window and allows placing Composables inside. Then `ModalSheet` adds swipe-to-dismiss, scrim and shaping to simulate bottom sheet behavior.
 
-The `FullScreenPopup` is public, thus can be used to create own "modal" Composables.
-
 ## Usage
 
 ### Get a dependency
