@@ -148,7 +148,7 @@ public fun ModalSheet(
         },
     )
 
-    LaunchedEffect(visible) {
+    LaunchedEffect(visible, cancelable) {
         if (visible) {
             internalCancelable.value = cancelable
             sheetState.show()

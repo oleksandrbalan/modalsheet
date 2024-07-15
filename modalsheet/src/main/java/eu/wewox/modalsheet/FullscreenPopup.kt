@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionContext
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,13 +59,11 @@ internal fun FullscreenPopup(
     val popupId = rememberSaveable { UUID.randomUUID() }
     val popupLayout = remember {
         PopupLayout(
+            onSystemBack = onSystemBack,
             composeView = view,
-            popupId = popupId,
+            popupId = popupId
         ).apply {
             setContent(parentComposition) {
-                BackHandler(onSystemBack != null) {
-                    onSystemBack?.invoke()
-                }
                 Box(Modifier.semantics { this.popup() }) {
                     currentContent()
                 }
@@ -74,11 +73,20 @@ internal fun FullscreenPopup(
 
     DisposableEffect(popupLayout) {
         popupLayout.show()
+        popupLayout.updateParameters(
+            onSystemBack = onSystemBack
+        )
         onDispose {
             popupLayout.disposeComposition()
             // Remove the window
             popupLayout.dismiss()
         }
+    }
+
+    SideEffect {
+        popupLayout.updateParameters(
+            onSystemBack = onSystemBack
+        )
     }
 }
 
@@ -87,6 +95,7 @@ internal fun FullscreenPopup(
  */
 @SuppressLint("ViewConstructor")
 private class PopupLayout(
+    onSystemBack: (() -> Unit)?,
     composeView: View,
     popupId: UUID
 ) : AbstractComposeView(composeView.context),
@@ -108,6 +117,8 @@ private class PopupLayout(
     }
 
     private var content: @Composable () -> Unit by mutableStateOf({})
+
+    private var onSystemBackState by mutableStateOf(onSystemBack)
 
     override var shouldCreateCompositionOnAttachedToWindow: Boolean = false
         private set
@@ -132,7 +143,16 @@ private class PopupLayout(
 
     @Composable
     override fun Content() {
+        BackHandler(onSystemBackState != null) {
+            onSystemBackState?.invoke()
+        }
         content()
+    }
+
+    fun updateParameters(
+        onSystemBack: (() -> Unit)?
+    ) {
+        onSystemBackState = onSystemBack
     }
 
     fun dismiss() {
