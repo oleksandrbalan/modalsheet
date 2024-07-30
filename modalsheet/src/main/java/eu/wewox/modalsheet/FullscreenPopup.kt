@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionContext
@@ -95,7 +95,7 @@ internal fun FullscreenPopup(
  */
 @SuppressLint("ViewConstructor")
 private class PopupLayout(
-    private var onSystemBack: (() -> Unit)?,
+    onSystemBack: (() -> Unit)?,
     composeView: View,
     popupId: UUID
 ) : AbstractComposeView(composeView.context),
@@ -117,6 +117,8 @@ private class PopupLayout(
     }
 
     private var content: @Composable () -> Unit by mutableStateOf({})
+
+    private var onSystemBackState by mutableStateOf(onSystemBack)
 
     override var shouldCreateCompositionOnAttachedToWindow: Boolean = false
         private set
@@ -141,34 +143,16 @@ private class PopupLayout(
 
     @Composable
     override fun Content() {
-        content()
-    }
-
-    @Suppress("ReturnCount")
-    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (event.keyCode == KeyEvent.KEYCODE_BACK && onSystemBack != null) {
-            if (keyDispatcherState == null) {
-                return super.dispatchKeyEvent(event)
-            }
-            if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) {
-                val state = keyDispatcherState
-                state?.startTracking(event, this)
-                return true
-            } else if (event.action == KeyEvent.ACTION_UP) {
-                val state = keyDispatcherState
-                if (state != null && state.isTracking(event) && !event.isCanceled) {
-                    onSystemBack?.invoke()
-                    return true
-                }
-            }
+        BackHandler(onSystemBackState != null) {
+            onSystemBackState?.invoke()
         }
-        return super.dispatchKeyEvent(event)
+        content()
     }
 
     fun updateParameters(
         onSystemBack: (() -> Unit)?
     ) {
-        this.onSystemBack = onSystemBack
+        onSystemBackState = onSystemBack
     }
 
     fun dismiss() {

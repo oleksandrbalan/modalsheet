@@ -35,6 +35,7 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.compose.ui)
     implementation(libs.compose.material2)
+    implementation(libs.androidx.activitycompose)
     implementation(libs.androidx.savedstate)
     implementation(libs.androidx.viewmodel)
 }
